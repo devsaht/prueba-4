@@ -43,7 +43,7 @@
           for (let j = 0; j < dimension; j++) {
             let elemento = 0;
             do {
-              const entrada = prompt(`Ingrese elemento fila ${i} columna${j}`);
+              const entrada = prompt(`Ingrese elemento fila: ${i+1} columna: ${j+1}`);
               elemento = parseInt(entrada);
             } while (!Number.isInteger(elemento));
             fila.push(elemento);
