@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prueba 4</title>
+  </head>
+  <body>
+    <form>
+      <label id="labelDimension">Ingrese dimensión de la matriz</label>
+      <input
+        id="inputDimension"
+        type="text"
+        placeholder="Ingrese dimension del array"
+      />
+      <button id="btnDimension" type="submit">Enviar</button>
+    </form>
+
+    <script>
+      let btnDimension = document.getElementById("btnDimension");
+      let inputDimension = document.getElementById("inputDimension");
+      let labelDimension = document.getElementById("labelDimension");
+
+      btnDimension.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const dimension = parseInt(inputDimension.value);
+
+        if (dimension && Number.isInteger(dimension)) {
+          if (dimension > 1) ingresarElementos(dimension);
+          else alert("ERROR: El numero debe ser mayor a 2");
+        } else {
+          alert("ERROR: Debe ingresar un numero");
+        }
+      });
+
+      // Creación de la matriz para su envio via metodo POST
+      function ingresarElementos(dimension) {
+        let matriz = new Array();
+        for (let i = 0; i < dimension; i++) {
+          let fila = new Array();
+          for (let j = 0; j < dimension; j++) {
+            let elemento = 0;
+            do {
+              const entrada = prompt(`Ingrese elemento fila ${i} columna${j}`);
+              elemento = parseInt(entrada);
+            } while (!Number.isInteger(elemento));
+            fila.push(elemento);
+          }
+          matriz.push(fila);
+        }
+        enviarMatriz(matriz);
+      }
+
+      // Enviar la matriz via metodo POST
+      function enviarMatriz(matriz) {
+        const data = {
+          matriz,
+        };
+
+        const base = "http://localhost:3000/";
+        // Petición POST
+        fetch(base + "rotar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            location.href = base + "resultado";
+          });
+      }
+    </script>
+  </body>
+</html>
